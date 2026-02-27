@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Jia 🖤</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff4da6;
+            --secondary: #8e44ad;
+            --accent: #ff99cc;
+            --glass: rgba(255, 255, 255, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background: #0f0f1a;
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* BACKGROUND ANIMATION */
+        .bg-animate {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(-45deg, #0f0f1a, #2c003e, #51004d, #0f0f1a);
+            background-size: 400% 400%;
+            animation: gradientMove 15s ease infinite;
+            z-index: -2;
+        }
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .center {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 30px;
+            transition: all 1.2s ease-in-out;
+        }
+
+        .hidden { display: none !important; }
+
+        /* LOCK PAGE ANIMATIONS */
+        .lock-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+            max-width: 400px;
+            width: 100%;
+            z-index: 10;
+            animation: cardEntrance 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+        @keyframes cardEntrance {
+            0% { opacity: 0; transform: translateY(50px) rotateX(-20deg); }
+            100% { opacity: 1; transform: translateY(0) rotateX(0); }
+        }
+
+        input {
+            padding: 15px; border-radius: 50px; border: 2px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.2); color: white;
+            text-align: center; width: 100%; margin: 25px 0; outline: none;
+            transition: 0.4s;
+        }
+        input:focus { border-color: var(--primary); box-shadow: 0 0 20px rgba(255, 77, 166, 0.3); }
+
+        /* TEXT STYLES */
+        .glow-text {
+            font-size: 3rem;
+            font-family: 'Dancing Script', cursive;
+            background: linear-gradient(to right, #fff, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 15px 40px; border: none; border-radius: 50px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white; font-weight: 700; cursor: pointer; transition: 0.4s;
+            box-shadow: 0 5px 15px rgba(255, 77, 166, 0.4);
+        }
+        button:hover { transform: scale(1.08); box-shadow: 0 8px 25px var(--primary); }
+
+        /* HERO OVERLAY */
+        #birthdayOverlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000; pointer-events: none;
+        }
+        .hero-birthday-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 5rem; font-weight: 800; color: white; text-align: center;
+            text-shadow: 0 0 20px var(--primary); opacity: 0;
+        }
+        .rise-up { animation: riseUp 1.2s ease-out forwards, breathe 2.5s ease-in-out infinite 1.2s; }
+        @keyframes riseUp { 0% { opacity: 0; transform: translateY(100px); } 100% { opacity: 1; transform: translateY(0); } }
+        @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+
+        /* MAIN CARD */
+        .card { background: var(--glass); backdrop-filter: blur(20px); padding: 40px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); max-width: 500px; width: 100%; z-index: 10; }
+        .page-blur { filter: blur(15px); opacity: 0.2; transform: scale(0.9); }
+        
+        /* GAME */
+        #gameArea { position: relative; width: 100%; height: 200px; background: rgba(0,0,0,0.3); border-radius: 20px; margin: 20px 0; overflow: hidden; border: 1px dashed var(--accent); }
+        #movingHeart { position: absolute; font-size: 35px; cursor: pointer; user-select: none; }
+
+        /* TYPEWRITER */
+        #proposalContainer { margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; min-height: 150px; }
+        #typewriterText { line-height: 1.6; font-style: italic; font-size: 1rem; color: #fff; }
+        .cursor { display: inline-block; width: 8px; background: var(--primary); margin-left: 5px; animation: blink 0.8s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* NEXT BUTTON (BOTTOM RIGHT) */
+        #nextBtn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 12px 30px;
+            font-size: 1rem;
+            z-index: 2000;
+            animation: fadeIn 1s ease-in forwards;
+            background: linear-gradient(45deg, #fff, var(--accent));
+            color: #2c003e;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* PARTICLES */
+        .confetti { position: fixed; width: 8px; height: 8px; z-index: 500; top: -10px; animation: confettiFall linear forwards; }
+        @keyframes confettiFall { 0% { transform: translateY(0); } 100% { transform: translateY(105vh); } }
+        .spark { position: fixed; font-size: 20px; z-index: 2000; animation: sparkExplode 1.2s ease-out forwards; }
+        @keyframes sparkExplode { 0% { transform: scale(0); opacity: 1; } 100% { transform: scale(3) translate(var(--dx), var(--dy)); opacity: 0; } }
+
+        @media (max-width: 600px) { .hero-birthday-text { font-size: 3rem; } .glow-text { font-size: 2.2rem; } }
+    </style>
+</head>
+<body>
+
+<div class="bg-animate"></div>
+
+<div id="birthdayOverlay" class="hidden">
+    <h1 class="hero-birthday-text" id="heroText">Happy Birthday<br>Jia 🖤</h1>
+</div>
+
+<div id="passwordPage" class="center">
+    <div class="lock-card" id="lockCard">
+        <h1 class="glow-text">For Jia 🖤</h1>
+        <p style="opacity: 0.8;">Enter the secret code to begin.</p>
+        <input type="password" id="passInput" placeholder="Password...">
+        <button onclick="unlock()">Unlock the Magic ✨</button>
+    </div>
+</div>
+
+<div id="mainContent" class="center hidden">
+    <div class="card">
+        <h1 class="glow-text">Happy Birthday 🎂</h1>
+        <p style="font-size: 0.8rem; opacity: 0.7;">Jivdii • Mumma • Wifey • My Life • Chakudi</p>
+        <div id="timer" style="margin:15px 0; font-weight: bold; color: var(--accent); font-size: 1.1rem;"></div>
+
+        <div id="gameSection">
+            <hr style="opacity:0.1; margin:15px 0;">
+            <p>Catch 5 hearts for the surprise!</p>
+            <div id="gameArea"><div id="movingHeart">💖</div></div>
+            <p id="scoreLabel">Score: 0</p>
+        </div>
+
+        <button id="finalBtn" class="hidden" onclick="revealBirthdaySurprise()">Final Surprise 🎁</button>
+        
+        <div id="proposalContainer" class="hidden">
+            <h3 style="color: var(--accent); margin-bottom:10px; font-family: 'Dancing Script', cursive; font-size: 1.8rem;">My Dearest Jia...</h3>
+            <span id="typewriterText"></span><span class="cursor" id="cursor"></span>
+        </div>
+    </div>
+</div>
+
+<button id="nextBtn" class="hidden" onclick="location.href='https://happybirthdayjivdiiiiiii.netlify.app/'">Next ➔</button>
+
+<script>
+    function unlock() {
+        const card = document.getElementById('lockCard');
+        if(document.getElementById('passInput').value === "JVP@17072011") {
+            card.style.transition = "0.8s"; card.style.opacity = "0"; card.style.transform = "scale(0.8)";
+            setTimeout(() => {
+                document.getElementById('passwordPage').classList.add('hidden');
+                document.getElementById('mainContent').classList.remove('hidden');
+                startFloatingHearts();
+            }, 800);
+        } else { alert("Try again, Jia! 😏"); }
+    }
+
+    const start = new Date("August 17, 2025 00:00:00").getTime();
+    setInterval(() => {
+        const diff = new Date().getTime() - start;
+        const d = Math.floor(diff / 86400000);
+        const h = Math.floor((diff % 86400000) / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        document.getElementById('timer').innerHTML = `${d}d : ${h}h : ${m}m : ${s}s ❤️`;
+    }, 1000);
+
+    let score = 0;
+    const heart = document.getElementById('movingHeart');
+    function move() { heart.style.left = Math.random()*85+"%"; heart.style.top = Math.random()*80+"%"; }
+    let gameInterval = setInterval(move, 900);
+    heart.addEventListener('click', () => {
+        score++;
+        document.getElementById('scoreLabel').innerText = "Score: " + score;
+        if(score === 5) {
+            clearInterval(gameInterval);
+            document.getElementById('gameSection').classList.add('hidden');
+            document.getElementById('finalBtn').classList.remove('hidden');
+        }
+    });
+
+    function startFloatingHearts() {
+        setInterval(() => {
+            const h = document.createElement("div");
+            h.style.position = "fixed"; h.style.bottom = "-50px";
+            h.style.left = Math.random() * 100 + "vw";
+            h.style.color = "#ff4da6"; h.style.opacity = "0.4";
+            h.innerHTML = "💖"; h.style.transition = "6s linear";
+            document.body.appendChild(h);
+            setTimeout(() => { h.style.transform = "translateY(-110vh)"; }, 100);
+            setTimeout(() => h.remove(), 6500);
+        }, 600);
+    }
+
+    const message = "On 28 November 2025, you chose me. Today, on your birthday, I choose you again. Forever. I promise to love you beyond distance and time. Will you stay mine forever? 🖤";
+    
+    function typeEffect() {
+        let i = 0;
+        document.getElementById('proposalContainer').classList.remove('hidden');
+        const textElement = document.getElementById('typewriterText');
+        function type() {
+            if (i < message.length) {
+                textElement.innerHTML += message.charAt(i); i++;
+                setTimeout(type, 50);
+            } else { 
+                document.getElementById('cursor').style.display = 'none';
+                // REVEAL NEXT BUTTON AT THE VERY END
+                document.getElementById('nextBtn').classList.remove('hidden');
+            }
+        }
+        type();
+    }
+
+    function revealBirthdaySurprise() {
+        const main = document.getElementById('mainContent');
+        const overlay = document.getElementById('birthdayOverlay');
+        const hero = document.getElementById('heroText');
+        document.getElementById('finalBtn').classList.add('hidden');
+        main.classList.add('page-blur');
+        overlay.classList.remove('hidden');
+        hero.classList.add('rise-up');
+        startConfetti();
+        triggerEmojiFireworks();
+        setTimeout(() => {
+            hero.style.transition = "1s"; hero.style.opacity = "0";
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                main.classList.remove('page-blur');
+                typeEffect();
+            }, 1000);
+        }, 5000); 
+    }
+
+    function startConfetti() {
+        const colors = ['#ff4da6', '#ffd700', '#ffffff', '#8e44ad'];
+        setInterval(() => {
+            const c = document.createElement('div');
+            c.classList.add('confetti');
+            c.style.left = Math.random() * 100 + 'vw';
+            c.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+            c.style.animationDuration = Math.random() * 2 + 2 + 's';
+            document.body.appendChild(c);
+            setTimeout(() => c.remove(), 4000);
+        }, 150);
+    }
+
+    function triggerEmojiFireworks() {
+        const emojis = ['🎂', '🎉', '🎁', '💖', '✨'];
+        for(let burst=0; burst<10; burst++) {
+            setTimeout(() => {
+                const x = Math.random() * 100 + "vw";
+                const y = Math.random() * 100 + "vh";
+                for(let i=0; i<8; i++) {
+                    const s = document.createElement('div');
+                    s.classList.add('spark');
+                    s.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+                    s.style.left = x; s.style.top = y;
+                    s.style.setProperty('--dx', (Math.random()-0.5)*300 + 'px');
+                    s.style.setProperty('--dy', (Math.random()-0.5)*300 + 'px');
+                    document.body.appendChild(s);
+                    setTimeout(() => s.remove(), 1200);
+                }
+            }, burst * 500);
+        }
+    }
+</script>
+
+</body>
+</html>
