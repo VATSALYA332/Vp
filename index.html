@@ -200,14 +200,31 @@
         } else { alert("Try again, Jia! 😏"); }
     }
 
-    const start = new Date("August 17, 2025 00:00:00").getTime();
+    // UPDATED TIMER LOGIC FOR JULY 17 COUNTDOWN
     setInterval(() => {
-        const diff = new Date().getTime() - start;
+        const now = new Date();
+        const currentYear = now.getFullYear();
+        // Set target birthday to July 17th of the current year
+        let birthday = new Date(`July 17, ${currentYear} 00:00:00`).getTime();
+        
+        // If the birthday has already passed this year, set target to next year
+        if (now.getTime() > birthday) {
+            birthday = new Date(`July 17, ${currentYear + 1} 00:00:00`).getTime();
+        }
+
+        const diff = birthday - now.getTime();
+        
         const d = Math.floor(diff / 86400000);
         const h = Math.floor((diff % 86400000) / 3600000);
         const m = Math.floor((diff % 3600000) / 60000);
         const s = Math.floor((diff % 60000) / 1000);
-        document.getElementById('timer').innerHTML = `${d}d : ${h}h : ${m}m : ${s}s ❤️`;
+
+        // Display "Today is the day!" if it's July 17th, otherwise show countdown
+        if (d === 0 && h === 0 && m === 0 && s === 0) {
+             document.getElementById('timer').innerHTML = "IT'S YOUR DAY JIA! 🎂❤️";
+        } else {
+             document.getElementById('timer').innerHTML = `Countdown: ${d}d : ${h}h : ${m}m : ${s}s ❤️`;
+        }
     }, 1000);
 
     let score = 0;
@@ -249,7 +266,6 @@
                 setTimeout(type, 50);
             } else { 
                 document.getElementById('cursor').style.display = 'none';
-                // REVEAL NEXT BUTTON AT THE VERY END
                 document.getElementById('nextBtn').classList.remove('hidden');
             }
         }
